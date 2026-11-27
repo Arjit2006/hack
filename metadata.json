@@ -1,0 +1,6 @@
+{
+  "name": "EcoIntelligence",
+  "description": "AI-powered global environmental monitoring, analytics, WQI/WMI index engine, anomaly detection, and risk prediction platform.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

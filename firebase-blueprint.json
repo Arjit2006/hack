@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account profile and environmental preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "country": { "type": "string", "maxLength": 100 },
+        "preferredLocation": { "type": "string", "maxLength": 160 },
+        "role": { "type": "string", "enum": ["USER"] },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "termsAccepted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 },
+        "updatedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["uid", "fullName", "email", "role", "status", "termsAccepted", "createdAt", "updatedAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Administrator role store and MFA status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "role": { "type": "string", "enum": ["ADMIN", "SUPER_ADMIN"] },
+        "mfaEnrolled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 },
+        "updatedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["uid", "email", "role", "mfaEnrolled", "createdAt", "updatedAt"]
+    },
+    "SavedLocation": {
+      "title": "SavedLocation",
+      "description": "User saved monitoring location.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "city": { "type": "string", "maxLength": 120 },
+        "state": { "type": "string", "maxLength": 120 },
+        "country": { "type": "string", "maxLength": 100 },
+        "countryCode": { "type": "string", "maxLength": 10 },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "isPrimary": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["userId", "name", "country", "latitude", "longitude", "createdAt"]
+    },
+    "WqiCalculation": {
+      "title": "WqiCalculation",
+      "description": "Saved Weighted Arithmetic Water Quality Index calculation record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "locationName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "waterUse": { "type": "string", "enum": ["drinking", "bathing", "surface", "irrigation", "ecosystem"] },
+        "standardName": { "type": "string", "maxLength": 120 },
+        "standardVersion": { "type": "string", "maxLength": 40 },
+        "method": { "type": "string", "maxLength": 80 },
+        "wqi": { "type": "number" },
+        "classification": { "type": "string", "maxLength": 60 },
+        "completenessPct": { "type": "number" },
+        "isProvisional": { "type": "boolean" },
+        "microbiologicalAlert": { "type": "boolean" },
+        "calculatedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["userId", "locationName", "waterUse", "standardName", "wqi", "classification", "completenessPct", "isProvisional", "calculatedAt"]
+    },
+    "WmiCalculation": {
+      "title": "WmiCalculation",
+      "description": "Saved EcoIntelligence Waste Management Index calculation record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "locationName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "methodologyVersion": { "type": "string", "maxLength": 40 },
+        "wmi": { "type": "number" },
+        "classification": { "type": "string", "maxLength": 60 },
+        "completenessPct": { "type": "number" },
+        "isProvisional": { "type": "boolean" },
+        "massBalanceDiscrepancyPct": { "type": "number" },
+        "calculatedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["userId", "locationName", "methodologyVersion", "wmi", "classification", "completenessPct", "isProvisional", "calculatedAt"]
+    },
+    "EnvironmentalNotification": {
+      "title": "EnvironmentalNotification",
+      "description": "User environmental alert and notification record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "locationName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "category": { "type": "string", "enum": ["air", "water_quality", "water_wastage", "waste", "energy", "climate", "future_risk"] },
+        "severity": { "type": "string", "enum": ["low", "moderate", "high", "critical"] },
+        "measuredValue": { "type": "string", "maxLength": 80 },
+        "threshold": { "type": "string", "maxLength": 80 },
+        "source": { "type": "string", "maxLength": 120 },
+        "explanation": { "type": "string", "maxLength": 500 },
+        "recommendedAction": { "type": "string", "maxLength": 500 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["userId", "locationName", "title", "category", "severity", "isRead", "createdAt"]
+    },
+    "EnvironmentalReport": {
+      "title": "EnvironmentalReport",
+      "description": "User generated environmental report snapshot.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "locationName": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "reportingPeriod": { "type": "string", "maxLength": 80 },
+        "summary": { "type": "string", "maxLength": 4000 },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["userId", "title", "locationName", "reportingPeriod", "createdAt"]
+    },
+    "MethodologyVersion": {
+      "title": "MethodologyVersion",
+      "description": "Audit-tracked WQI standard or WMI weight configuration version.",
+      "type": "object",
+      "properties": {
+        "indexType": { "type": "string", "enum": ["WQI", "WMI", "ANOMALY"] },
+        "version": { "type": "string", "maxLength": 40 },
+        "changedByUid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "changedByEmail": { "type": "string", "maxLength": 254 },
+        "reason": { "type": "string", "minLength": 3, "maxLength": 500 },
+        "isPublic": { "type": "boolean" },
+        "changedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["indexType", "version", "changedByUid", "reason", "isPublic", "changedAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Security and administrative audit log entry.",
+      "type": "object",
+      "properties": {
+        "actorUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorEmail": { "type": "string", "maxLength": 254 },
+        "action": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "targetType": { "type": "string", "maxLength": 80 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["actorUid", "action", "targetType", "createdAt"]
+    },
+    "SystemSetting": {
+      "title": "SystemSetting",
+      "description": "Admin-managed system configuration.",
+      "type": "object",
+      "properties": {
+        "forecastingEnabled": { "type": "boolean" },
+        "anomalyZThreshold": { "type": "number" },
+        "defaultPollIntervalMin": { "type": "number" },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+      },
+      "required": ["forecastingEnabled", "anomalyZThreshold", "defaultPollIntervalMin", "updatedBy", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profiles isolated to the owner or admin."
+    },
+    "/adminUsers/{userId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Administrator role registry."
+    },
+    "/savedLocations/{locationId}": {
+      "schema": { "$ref": "#/entities/SavedLocation" },
+      "description": "User saved environmental monitoring locations."
+    },
+    "/wqiResults/{resultId}": {
+      "schema": { "$ref": "#/entities/WqiCalculation" },
+      "description": "User WAWQI calculation records."
+    },
+    "/wmiResults/{resultId}": {
+      "schema": { "$ref": "#/entities/WmiCalculation" },
+      "description": "User WMI calculation records."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/EnvironmentalNotification" },
+      "description": "User environmental alerts and read states."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/EnvironmentalReport" },
+      "description": "User generated environmental reports."
+    },
+    "/methodologyVersions/{versionId}": {
+      "schema": { "$ref": "#/entities/MethodologyVersion" },
+      "description": "Publicly readable, admin-authored methodology version audit trail."
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable security and administrative audit logs."
+    },
+    "/systemSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/SystemSetting" },
+      "description": "Admin-only system configuration."
+    }
+  }
+}

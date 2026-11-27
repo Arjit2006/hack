@@ -1,0 +1,294 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isBootstrappedSuperAdmin() {
+      return isVerified() && request.auth.token.email == 'kuku42615@gmail.com';
+    }
+
+    function isAdmin() {
+      return isBootstrappedSuperAdmin() || (
+        isVerified() &&
+        exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/adminUsers/$(request.auth.uid)).data.role in ['ADMIN', 'SUPER_ADMIN']
+      );
+    }
+
+    function isSuperAdmin() {
+      return isBootstrappedSuperAdmin() || (
+        isVerified() &&
+        exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/adminUsers/$(request.auth.uid)).data.role == 'SUPER_ADMIN'
+      );
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['uid', 'fullName', 'email', 'role', 'status', 'termsAccepted', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'fullName', 'email', 'country', 'preferredLocation', 'role', 'status', 'termsAccepted', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && data.uid.size() <= 128
+        && data.fullName is string && data.fullName.size() >= 1 && data.fullName.size() <= 120
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 254
+        && (!('country' in data) || (data.country is string && data.country.size() <= 100))
+        && (!('preferredLocation' in data) || (data.preferredLocation is string && data.preferredLocation.size() <= 160))
+        && data.role == 'USER'
+        && data.status in ['active', 'suspended']
+        && data.termsAccepted is bool && data.termsAccepted == true
+        && data.createdAt is string && data.createdAt.size() <= 40
+        && data.updatedAt is string && data.updatedAt.size() <= 40;
+    }
+
+    function isValidAdminUser(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'mfaEnrolled', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'email', 'role', 'mfaEnrolled', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == userId && data.uid.size() <= 128
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 254
+        && data.role in ['ADMIN', 'SUPER_ADMIN']
+        && data.mfaEnrolled is bool
+        && data.createdAt is string && data.createdAt.size() <= 40
+        && data.updatedAt is string && data.updatedAt.size() <= 40;
+    }
+
+    function isValidSavedLocation(data) {
+      return data.keys().hasAll(['userId', 'name', 'country', 'latitude', 'longitude', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'name', 'city', 'state', 'country', 'countryCode', 'latitude', 'longitude', 'isPrimary', 'createdAt'])
+        && data.userId is string && data.userId == request.auth.uid && data.userId.size() <= 128
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 160
+        && (!('city' in data) || (data.city is string && data.city.size() <= 120))
+        && (!('state' in data) || (data.state is string && data.state.size() <= 120))
+        && data.country is string && data.country.size() >= 1 && data.country.size() <= 100
+        && (!('countryCode' in data) || (data.countryCode is string && data.countryCode.size() <= 10))
+        && data.latitude is number && data.latitude >= -90 && data.latitude <= 90
+        && data.longitude is number && data.longitude >= -180 && data.longitude <= 180
+        && (!('isPrimary' in data) || data.isPrimary is bool)
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+
+    function isValidWqiResult(data) {
+      return data.keys().hasAll(['userId', 'locationName', 'waterUse', 'standardName', 'wqi', 'classification', 'completenessPct', 'isProvisional', 'calculatedAt'])
+        && data.keys().hasOnly(['userId', 'locationName', 'waterUse', 'standardName', 'standardVersion', 'method', 'wqi', 'classification', 'completenessPct', 'isProvisional', 'microbiologicalAlert', 'calculatedAt'])
+        && data.userId is string && data.userId == request.auth.uid && data.userId.size() <= 128
+        && data.locationName is string && data.locationName.size() >= 1 && data.locationName.size() <= 160
+        && data.waterUse in ['drinking', 'bathing', 'surface', 'irrigation', 'ecosystem']
+        && data.standardName is string && data.standardName.size() >= 1 && data.standardName.size() <= 120
+        && (!('standardVersion' in data) || (data.standardVersion is string && data.standardVersion.size() <= 40))
+        && (!('method' in data) || (data.method is string && data.method.size() <= 80))
+        && data.wqi is number && data.wqi >= 0
+        && data.classification is string && data.classification.size() >= 1 && data.classification.size() <= 60
+        && data.completenessPct is number && data.completenessPct >= 0 && data.completenessPct <= 100
+        && data.isProvisional is bool
+        && (!('microbiologicalAlert' in data) || data.microbiologicalAlert is bool)
+        && data.calculatedAt is string && data.calculatedAt.size() <= 40;
+    }
+
+    function isValidWmiResult(data) {
+      return data.keys().hasAll(['userId', 'locationName', 'methodologyVersion', 'wmi', 'classification', 'completenessPct', 'isProvisional', 'calculatedAt'])
+        && data.keys().hasOnly(['userId', 'locationName', 'methodologyVersion', 'wmi', 'classification', 'completenessPct', 'isProvisional', 'massBalanceDiscrepancyPct', 'calculatedAt'])
+        && data.userId is string && data.userId == request.auth.uid && data.userId.size() <= 128
+        && data.locationName is string && data.locationName.size() >= 1 && data.locationName.size() <= 160
+        && data.methodologyVersion is string && data.methodologyVersion.size() >= 1 && data.methodologyVersion.size() <= 40
+        && data.wmi is number && data.wmi >= 0 && data.wmi <= 100
+        && data.classification is string && data.classification.size() >= 1 && data.classification.size() <= 60
+        && data.completenessPct is number && data.completenessPct >= 0 && data.completenessPct <= 100
+        && data.isProvisional is bool
+        && (!('massBalanceDiscrepancyPct' in data) || data.massBalanceDiscrepancyPct is number)
+        && data.calculatedAt is string && data.calculatedAt.size() <= 40;
+    }
+
+    function isValidNotification(data) {
+      return data.keys().hasAll(['userId', 'locationName', 'title', 'category', 'severity', 'isRead', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'locationName', 'title', 'category', 'severity', 'measuredValue', 'threshold', 'source', 'explanation', 'recommendedAction', 'isRead', 'createdAt'])
+        && data.userId is string && data.userId == request.auth.uid && data.userId.size() <= 128
+        && data.locationName is string && data.locationName.size() >= 1 && data.locationName.size() <= 160
+        && data.title is string && data.title.size() >= 1 && data.title.size() <= 200
+        && data.category in ['air', 'water_quality', 'water_wastage', 'waste', 'energy', 'climate', 'future_risk']
+        && data.severity in ['low', 'moderate', 'high', 'critical']
+        && (!('measuredValue' in data) || (data.measuredValue is string && data.measuredValue.size() <= 80))
+        && (!('threshold' in data) || (data.threshold is string && data.threshold.size() <= 80))
+        && (!('source' in data) || (data.source is string && data.source.size() <= 120))
+        && (!('explanation' in data) || (data.explanation is string && data.explanation.size() <= 500))
+        && (!('recommendedAction' in data) || (data.recommendedAction is string && data.recommendedAction.size() <= 500))
+        && data.isRead is bool
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+
+    function isValidReport(data) {
+      return data.keys().hasAll(['userId', 'title', 'locationName', 'reportingPeriod', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'title', 'locationName', 'reportingPeriod', 'summary', 'createdAt'])
+        && data.userId is string && data.userId == request.auth.uid && data.userId.size() <= 128
+        && data.title is string && data.title.size() >= 1 && data.title.size() <= 200
+        && data.locationName is string && data.locationName.size() >= 1 && data.locationName.size() <= 160
+        && data.reportingPeriod is string && data.reportingPeriod.size() >= 1 && data.reportingPeriod.size() <= 80
+        && (!('summary' in data) || (data.summary is string && data.summary.size() <= 4000))
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+
+    function isValidMethodologyVersion(data) {
+      return data.keys().hasAll(['indexType', 'version', 'changedByUid', 'reason', 'isPublic', 'changedAt'])
+        && data.keys().hasOnly(['indexType', 'version', 'changedByUid', 'changedByEmail', 'reason', 'isPublic', 'changedAt'])
+        && data.indexType in ['WQI', 'WMI', 'ANOMALY']
+        && data.version is string && data.version.size() >= 1 && data.version.size() <= 40
+        && data.changedByUid is string && data.changedByUid == request.auth.uid && data.changedByUid.size() <= 128
+        && (!('changedByEmail' in data) || (data.changedByEmail is string && data.changedByEmail.size() <= 254))
+        && data.reason is string && data.reason.size() >= 3 && data.reason.size() <= 500
+        && data.isPublic is bool && data.isPublic == true
+        && data.changedAt is string && data.changedAt.size() <= 40;
+    }
+
+    function isValidAuditLog(data) {
+      return data.keys().hasAll(['actorUid', 'action', 'targetType', 'createdAt'])
+        && data.keys().hasOnly(['actorUid', 'actorEmail', 'action', 'targetType', 'targetId', 'details', 'createdAt'])
+        && data.actorUid is string && data.actorUid == request.auth.uid && data.actorUid.size() <= 128
+        && (!('actorEmail' in data) || (data.actorEmail is string && data.actorEmail.size() <= 254))
+        && data.action is string && data.action.size() >= 1 && data.action.size() <= 120
+        && data.targetType is string && data.targetType.size() >= 1 && data.targetType.size() <= 80
+        && (!('targetId' in data) || (data.targetId is string && data.targetId.size() <= 128))
+        && (!('details' in data) || (data.details is string && data.details.size() <= 500))
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+
+    function isValidSystemSetting(data) {
+      return data.keys().hasAll(['forecastingEnabled', 'anomalyZThreshold', 'defaultPollIntervalMin', 'updatedBy', 'updatedAt'])
+        && data.keys().hasOnly(['forecastingEnabled', 'anomalyZThreshold', 'defaultPollIntervalMin', 'updatedBy', 'updatedAt'])
+        && data.forecastingEnabled is bool
+        && data.anomalyZThreshold is number && data.anomalyZThreshold >= 1 && data.anomalyZThreshold <= 6
+        && data.defaultPollIntervalMin is number && data.defaultPollIntervalMin >= 5 && data.defaultPollIntervalMin <= 1440
+        && data.updatedBy is string && data.updatedBy.size() >= 1 && data.updatedBy.size() <= 128
+        && data.updatedAt is string && data.updatedAt.size() <= 40;
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isBootstrappedSuperAdmin();
+      allow create: if isValidId(userId) && isVerified() && isOwner(userId) && isValidUserProfile(incoming(), userId) && incoming().status == 'active';
+      allow update: if isValidId(userId) && isVerified() && (
+        (isOwner(userId)
+          && isValidUserProfile(incoming(), userId)
+          && incoming().uid == existing().uid
+          && incoming().role == existing().role
+          && incoming().status == existing().status
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['fullName', 'country', 'preferredLocation', 'updatedAt']))
+        || (isAdmin()
+          && isValidUserProfile(incoming(), userId)
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']))
+      );
+      allow delete: if isValidId(userId) && isSuperAdmin();
+    }
+
+    match /adminUsers/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isBootstrappedSuperAdmin();
+      allow create: if isValidId(userId) && isSuperAdmin() && isValidAdminUser(incoming(), userId);
+      allow update: if isValidId(userId) && isValidAdminUser(incoming(), userId) && (
+        (isOwner(userId) && isAdmin()
+          && incoming().role == existing().role
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['mfaEnrolled', 'updatedAt']))
+        || (isSuperAdmin()
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['role', 'mfaEnrolled', 'updatedAt']))
+      );
+      allow delete: if isValidId(userId) && isSuperAdmin();
+    }
+
+    match /savedLocations/{locationId} {
+      allow get: if isValidId(locationId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isValidId(locationId) && isVerified() && isValidSavedLocation(incoming());
+      allow update: if isValidId(locationId) && isVerified() && isValidSavedLocation(incoming())
+        && existing().userId == request.auth.uid
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'city', 'state', 'country', 'countryCode', 'latitude', 'longitude', 'isPrimary']);
+      allow delete: if isValidId(locationId) && isVerified() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /wqiResults/{resultId} {
+      allow get: if isValidId(resultId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isValidId(resultId) && isVerified() && isValidWqiResult(incoming());
+      allow update: if false;
+      allow delete: if isValidId(resultId) && isVerified() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /wmiResults/{resultId} {
+      allow get: if isValidId(resultId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isValidId(resultId) && isVerified() && isValidWmiResult(incoming());
+      allow update: if false;
+      allow delete: if isValidId(resultId) && isVerified() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /notifications/{notificationId} {
+      allow get: if isValidId(notificationId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isValidId(notificationId) && isVerified() && isValidNotification(incoming());
+      allow update: if isValidId(notificationId) && isVerified() && isValidNotification(incoming())
+        && existing().userId == request.auth.uid
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['isRead']);
+      allow delete: if isValidId(notificationId) && isVerified() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /reports/{reportId} {
+      allow get: if isValidId(reportId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isValidId(reportId) && isVerified() && isValidReport(incoming());
+      allow update: if false;
+      allow delete: if isValidId(reportId) && isVerified() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /methodologyVersions/{versionId} {
+      allow get: if isValidId(versionId) && isSignedIn();
+      allow list: if isSignedIn() && resource.data.isPublic == true;
+      allow create: if isValidId(versionId) && isAdmin() && isValidMethodologyVersion(incoming());
+      allow update, delete: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow get: if isValidId(logId) && isAdmin();
+      allow list: if isBootstrappedSuperAdmin();
+      allow create: if isValidId(logId) && isVerified() && isValidAuditLog(incoming());
+      allow update, delete: if false;
+    }
+
+    match /systemSettings/{settingId} {
+      allow get: if isValidId(settingId) && isAdmin();
+      allow list: if isBootstrappedSuperAdmin();
+      allow create, update: if isValidId(settingId) && isAdmin() && isValidSystemSetting(incoming());
+      allow delete: if false;
+    }
+  }
+}

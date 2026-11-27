@@ -1,0 +1,2188 @@
+PROJECT: ECOINTELLIGENCE
+
+AI-Powered Global Environmental Monitoring, Analytics and Risk Prediction Platform
+
+ROLE
+
+Act as a senior full-stack software architect, environmental data scientist, AI/ML engineer, cybersecurity specialist, UI/UX designer and database developer.
+
+Build a complete, functional, responsive, AI-powered environmental monitoring web application named EcoIntelligence.
+
+Do not create only a static UI, landing page or dashboard mockup. Develop a working full-stack application with a frontend, backend, database, authentication, environmental data integrations, analytics engine, AI chatbot, visualizations, alerts and reports.
+
+Use clean, modular, scalable and maintainable code.
+
+1. MAIN OBJECTIVE
+
+EcoIntelligence is a global environmental monitoring application that allows users to select any supported city, area, district, state or country and understand its environmental condition.
+
+The application must automatically collect available environmental datasets, analyse them, identify unusual patterns and potential environmental risks, generate easy-to-understand reports, visualize insights, recommend practical actions and monitor future environmental risks.
+
+The application must cover four main environmental categories:
+
+Air Quality Monitoring.
+
+Water Quality and Water Usage Monitoring.
+
+Waste Management Monitoring.
+
+Energy Consumption and Renewable Energy Monitoring.
+
+The platform must perform these four major tasks automatically:
+
+Task 1 – Environmental Data Analysis
+
+Collect environmental data from connected official APIs and verified datasets.
+
+Clean, validate and process the data.
+
+Analyse current, historical and location-based environmental conditions.
+
+Calculate environmental indicators, including AQI, WQI and WMI.
+
+Task 2 – Anomaly Detection and Risk Identification
+
+Identify unusual environmental changes.
+
+Detect increasing pollution, water-quality deterioration, excessive waste generation and abnormal energy consumption.
+
+Identify potential environmental risks.
+
+Compare current readings against historical baselines and applicable standards.
+
+Task 3 – Reports and Visual Insights
+
+Generate simple environmental reports.
+
+Create charts, graphs, tables, maps and comparisons.
+
+Allow users to compare environmental conditions by year, month, date and day.
+
+Generate downloadable PDF and CSV reports.
+
+Task 4 – Practical Recommendations
+
+Recommend actions based on actual environmental readings and analytical results.
+
+Identify the weakest environmental indicators.
+
+Suggest practical steps for citizens, communities, businesses and local authorities.
+
+Provide separate recommendations for current risks and predicted future risks.
+
+2. TECHNOLOGY STACK AND APPLICATION ARCHITECTURE
+
+Build the application using the following technology stack, compatible with Google AI Studio Build mode.
+
+Frontend
+
+React.js.
+
+TypeScript.
+
+Tailwind CSS.
+
+Responsive component-based architecture.
+
+Recharts or Chart.js for charts.
+
+Leaflet or Google Maps integration for geographical visualization.
+
+Lucide icons.
+
+Accessible forms, tables, navigation and dashboards.
+
+Backend
+
+Node.js server-side runtime.
+
+REST API architecture.
+
+Separate modules for authentication, environmental data collection, calculations, anomaly detection, forecasting, notifications and reporting.
+
+Server-side Gemini API integration.
+
+Background jobs for scheduled environmental data collection and analysis.
+
+Database and Authentication
+
+Use Firebase:
+
+Firebase Authentication for user registration and login.
+
+Cloud Firestore for user profiles, environmental readings, locations, reports, alerts, calculations and application settings.
+
+Firebase Security Rules for database protection.
+
+Role-based access control.
+
+Firebase-supported multifactor authentication for administrators.
+
+AI Engine
+
+Use the Gemini API through secure server-side calls.
+
+The AI must explain verified analytical results, summarize environmental reports, answer user questions and generate recommendations.
+
+Do not allow the AI to invent environmental readings, API results, risk scores or predictions.
+
+Important technical requirements
+
+Keep all API keys and credentials on the server side.
+
+Never expose API keys in frontend JavaScript.
+
+Use environment variables or the Google AI Studio Secrets facility.
+
+Separate frontend, backend, database and analytics responsibilities.
+
+Use reusable components and centralized error handling.
+
+Implement loading states, empty states, retry options and meaningful error messages.
+
+Do not use fake data as if it were live data.
+
+If a requested feature requires an external service, implement the integration structure and clearly identify any configuration or credentials still required.
+
+3. TWO SEPARATE INTERFACES
+
+Create two completely separate interfaces:
+
+A. User Interface
+B. Administrator Interface
+
+They must have different dashboards, permissions, navigation and authentication rules.
+
+A. USER INTERFACE
+
+3.1 User Registration
+
+Create an attractive registration page with:
+
+Full name.
+
+Email address.
+
+Password.
+
+Confirm password.
+
+Country.
+
+Preferred city or location.
+
+Terms and privacy consent.
+
+Create Account button.
+
+Link to Login page.
+
+Requirements:
+
+Validate email format.
+
+Enforce secure password requirements.
+
+Check password confirmation.
+
+Prevent duplicate account creation.
+
+Store user profiles securely.
+
+Use Firebase Authentication.
+
+Never store plain-text passwords.
+
+3.2 User Login
+
+Create a login page containing:
+
+Email address.
+
+Password.
+
+Login button.
+
+Remember me option where securely supported.
+
+Forgot Password link.
+
+Create New Account link.
+
+After successful login, open the user's dashboard.
+
+3.3 Forgot Password
+
+Allow users to:
+
+Enter their registered email.
+
+Request a password-reset email.
+
+Follow a secure reset link.
+
+Set a new password.
+
+Show clear success and error messages without revealing whether an email address belongs to another account.
+
+3.4 User Location Selection
+
+Location selection is a core feature.
+
+Provide:
+
+Search by city.
+
+Search by area or district.
+
+Search by state.
+
+Search by country.
+
+Use My Current Location button.
+
+Manual location selection.
+
+Option to change location anytime.
+
+Option to compare multiple locations.
+
+Ask for browser location permission only when the user chooses to use their current location.
+
+When a location is selected:
+
+Identify its geographical coordinates.
+
+Find available environmental monitoring stations and datasets.
+
+Retrieve the latest available environmental data.
+
+Retrieve historical data where available.
+
+Run the environmental analytics engine.
+
+Update the dashboard.
+
+Display data source, station, units and last-updated time.
+
+Never assume every location has every environmental dataset. Clearly display unavailable data.
+
+4. USER DASHBOARD AND NAVIGATION
+
+Design a modern dashboard with a clear sidebar or mobile-friendly navigation.
+
+Main navigation:
+
+Overview Dashboard
+
+Air Quality
+
+Water Quality
+
+Waste Management
+
+Energy Monitoring
+
+AI Environmental Chatbot
+
+Environmental Reports
+
+Location Comparison
+
+Alerts and Notifications
+
+Profile and Settings
+
+4.1 Overview Dashboard
+
+Display:
+
+Selected location.
+
+Current date and time.
+
+Overall environmental summary.
+
+Latest available AQI.
+
+Latest available WQI.
+
+Latest available WMI.
+
+Energy consumption.
+
+Environmental risk alerts.
+
+Historical trends.
+
+AI-generated environmental summary.
+
+Recommended actions.
+
+Use separate cards for each environmental category.
+
+Every card must display:
+
+Indicator name.
+
+Latest value.
+
+Measurement unit.
+
+Status or classification.
+
+Trend compared with the previous period.
+
+Data source.
+
+Last updated timestamp.
+
+Use appropriate colours:
+
+Green: Good.
+
+Yellow: Moderate or caution.
+
+Orange: Poor or elevated risk.
+
+Red: Severe or critical.
+
+Grey: Data unavailable.
+
+Do not use a colour alone to communicate status. Include text labels and accessible icons.
+
+Provide a clear label indicating whether a value is live, latest available, historical, uploaded, estimated or predicted.
+
+5. AIR QUALITY MONITORING MODULE
+
+Create a separate Air Quality page.
+
+Parameters
+
+AQI.
+
+PM2.5.
+
+PM10.
+
+CO.
+
+NO2.
+
+SO2.
+
+O3.
+
+Features
+
+Latest available AQI.
+
+Individual pollutant readings.
+
+AQI classification.
+
+Historical AQI trends.
+
+Daily, weekly, monthly and yearly charts.
+
+Location-based comparisons.
+
+Pollution trend analysis.
+
+Abnormal pollution detection.
+
+Environmental risk identification.
+
+Health-protection guidance based on reliable public-health guidance.
+
+AQI Classification
+
+Use the applicable official standard for the selected country.
+
+For India, support the CPCB National AQI framework and its pollutant breakpoints.
+
+For other countries, use the applicable national or official AQI framework.
+
+Never apply India's AQI breakpoints to every country.
+
+API Integration
+
+Design an integration layer for official or trusted air-quality data sources, including:
+
+OpenAQ API: https://docs.openaq.org/
+
+CPCB: https://cpcb.nic.in/
+
+CPCB AQI portal: https://airquality.cpcb.gov.in/
+
+Government open-data sources: https://data.gov.in/
+
+For every provider:
+
+Check its current API documentation.
+
+Check access permissions and authentication requirements.
+
+Implement the correct request and response format.
+
+Validate incoming readings and timestamps.
+
+Save the source and station details.
+
+Show connection status.
+
+Handle API limits and failures.
+
+Do not claim a provider is connected until a real successful test request has been completed.
+
+6. WATER QUALITY AND WATER USAGE MODULE
+
+Create a dedicated Water Quality page.
+
+Display the following parameters wherever data is available:
+
+WQI.
+
+pH.
+
+Dissolved Oxygen (DO).
+
+Biological Oxygen Demand (BOD).
+
+Chemical Oxygen Demand (COD).
+
+Total Dissolved Solids (TDS).
+
+Turbidity.
+
+Nitrate.
+
+Total coliform.
+
+Water consumption.
+
+Water wastage.
+
+Water usage trends.
+
+6.1 WATER QUALITY INDEX (WQI)
+
+Implement a transparent and configurable Water Quality Index calculation engine.
+
+Use the Weighted Arithmetic Water Quality Index (WAWQI) as the initial methodology.
+
+For the conventional weighted arithmetic method:
+
+Quality rating:
+
+Qi = [(Vi - V0) / (Si - V0)] × 100
+
+Unit weight:
+
+Wi = K / Si
+
+Where:
+
+K = 1 / Σ(1 / Si)
+
+Final WQI:
+
+WQI = Σ(Wi × Qi) / ΣWi
+
+Where:
+
+Vi = measured value of a water-quality parameter.
+
+V0 = ideal value for that parameter.
+
+Si = selected permissible or standard value.
+
+Wi = unit weight.
+
+Qi = quality rating.
+
+Important scientific rules
+
+Select the intended water use before calculating WQI:
+
+Drinking water.
+
+Bathing.
+
+Surface water.
+
+Irrigation.
+
+Aquatic ecosystem monitoring.
+
+Use the appropriate official standard for that water use and geographical jurisdiction.
+
+For India, support CPCB Designated Best Use criteria for relevant surface-water classifications.
+
+Use BIS/WHO-based standards where appropriate for drinking-water assessment. Do not treat surface-water criteria as drinking-water standards.
+
+Handle parameters according to their direction:
+
+pH is a two-sided parameter and should be assessed against the permitted range.
+
+DO is generally a higher-is-better parameter, so use an appropriate direction-aware calculation.
+
+Parameters such as BOD, COD, turbidity and nitrate generally increase concern as their values rise.
+
+Do not apply one universal ideal DO value to all water samples. Account for relevant conditions such as temperature and salinity where the chosen methodology requires them.
+
+Show the contribution of every included parameter.
+
+Never treat missing values as zero.
+
+If essential parameters are missing, display the WQI as incomplete or provisional, with the coverage percentage.
+
+Display microbiological failures separately. A favourable aggregate WQI must never hide a potentially dangerous coliform result.
+
+Save the selected standard, standard version, calculation method and calculation date with every WQI result.
+
+WQI Display
+
+Display:
+
+Calculated WQI.
+
+Water-quality classification.
+
+Parameter-wise readings.
+
+Parameter-wise quality ratings.
+
+Parameter weights.
+
+Standard limits.
+
+Data completeness.
+
+Water-use category.
+
+Historical WQI trend.
+
+Main reasons for deterioration.
+
+Recommended corrective action.
+
+For conventional WAWQI, clearly label:
+
+Lower WQI = Better water quality.
+
+Use clearly documented classification bands appropriate to the selected methodology. If using illustrative bands such as 0–25, 26–50, 51–75, 76–100 and above 100, label them as project-defined or methodology-specific, not universal regulatory classifications.
+
+6.2 WATER USAGE AND WASTAGE ANALYSIS
+
+Analyse:
+
+Total water consumption.
+
+Daily and monthly consumption.
+
+Water wastage.
+
+Leakage indicators, if supported by data.
+
+Consumption per person, where population data is available.
+
+Changes in water usage over time.
+
+Detect unusual increases and decreases.
+
+Recommend practical water conservation actions based on the data.
+
+Water Data Integrations
+
+Create provider adapters for suitable sources, such as:
+
+UNEP GEMStat: https://gemstat.org/
+
+CPCB: https://cpcb.nic.in/
+
+India-WRIS: https://indiawris.gov.in/
+
+National Water Data Portal: https://nwdp.nwic.gov.in/
+
+Also support verified CSV and Excel uploads.
+
+Do not fabricate water-quality readings for locations without coverage.
+
+7. WASTE MANAGEMENT MODULE
+
+Create a separate Waste Management dashboard.
+
+Parameters
+
+Total waste generated.
+
+Waste collected.
+
+Waste segregated.
+
+Recycled waste.
+
+Recovered waste.
+
+Waste treated.
+
+Safely disposed waste.
+
+Unmanaged waste.
+
+Waste generation per person, if population data is available.
+
+Provide daily, monthly and yearly waste trends wherever the source supports that frequency.
+
+7.1 WASTE MANAGEMENT INDEX (WMI)
+
+Implement the following proposed EcoIntelligence Waste Management Index.
+
+This is a project-defined composite index, not an official universal international standard.
+
+The WMI must range from 0 to 100.
+
+Higher WMI = Better waste management performance.
+
+Use these six components:
+
+Collection Efficiency – 20% weight.
+
+Segregation Efficiency – 15% weight.
+
+Recycling and Recovery Rate – 25% weight.
+
+Treatment Efficiency – 15% weight.
+
+Safe Disposal Rate – 15% weight.
+
+Unmanaged Waste Control – 10% weight.
+
+Formulas:
+
+Collection Efficiency:
+
+C = (Waste Collected / Total Waste Generated) × 100
+
+Segregation Efficiency:
+
+S = (Correctly Segregated Waste / Waste Collected) × 100
+
+Recycling and Recovery Rate:
+
+R = (Waste Recycled or Recovered / Total Waste Generated) × 100
+
+Treatment Efficiency:
+
+T = (Non-recycling Waste Treated / Total Waste Generated) × 100
+
+Safe Disposal Rate:
+
+D = (Residual Waste Safely Disposed / Total Waste Generated) × 100
+
+Unmanaged Waste Control:
+
+U = 100 - (Unmanaged Waste / Total Waste Generated × 100)
+
+Final WMI:
+
+WMI = (0.20 × C) + (0.15 × S) + (0.25 × R) + (0.15 × T) + (0.15 × D) + (0.10 × U)
+
+WMI Classification
+
+Use these initial project-defined bands:
+
+80–100: Excellent.
+
+60–79.99: Good.
+
+40–59.99: Moderate.
+
+20–39.99: Poor.
+
+0–19.99: Critical.
+
+Clearly identify these as EcoIntelligence's proposed classification bands, not official regulatory ratings.
+
+WMI Validation Rules
+
+Total generated waste must be greater than zero.
+
+Collected waste must not exceed generated waste unless documented imports or reporting differences explain it.
+
+Segregated waste must not exceed collected waste.
+
+All waste quantities must use consistent units and reporting periods.
+
+Recycling, treatment, safe disposal and unmanaged waste must be treated as mutually exclusive final destinations when calculating the waste-flow balance.
+
+Do not double-count waste in multiple destination categories.
+
+Check that generated waste is approximately equal to the sum of accounted waste destinations and other documented flows.
+
+Flag unexplained differences in the mass balance.
+
+Never treat missing values as zero.
+
+If data is incomplete, show an incomplete or provisional WMI with its component coverage.
+
+Store the methodology version and component calculations.
+
+WMI Dashboard
+
+Show:
+
+Overall WMI.
+
+WMI classification.
+
+Six component scores.
+
+Weight contribution.
+
+Waste generation trends.
+
+Recycling trends.
+
+Collection efficiency.
+
+Unmanaged waste trends.
+
+Historical comparisons.
+
+Weakest-performing component.
+
+AI-generated recommendations.
+
+Waste Data Integration
+
+Use suitable verified sources, including:
+
+World Bank What a Waste Global Database:
+https://datacatalog.worldbank.org/search/dataset/0039597/what-a-waste-global-database
+
+Swachh Bharat Mission Urban:
+https://sbmurban.org/
+
+Sansaadhan:
+https://sansaadhan.sbmurban.org/
+
+Support official API connections where available and permitted, plus CSV/Excel uploads for datasets without accessible APIs.
+
+8. ENERGY MONITORING MODULE
+
+Create a dedicated Energy Monitoring dashboard.
+
+Parameters
+
+Total energy consumption.
+
+Electricity consumption.
+
+Renewable energy generation.
+
+Non-renewable energy consumption.
+
+Energy consumption per person, where supported.
+
+Energy consumption trends.
+
+Energy efficiency indicators.
+
+Carbon-emission estimates where reliable emission factors are available.
+
+Features
+
+Daily, monthly and yearly energy analysis.
+
+Compare energy consumption between locations.
+
+Identify unusual increases in consumption.
+
+Detect high-energy usage periods.
+
+Analyse renewable-energy contribution.
+
+Generate practical energy-saving recommendations.
+
+Data Integration
+
+Use suitable official or trusted energy datasets, such as:
+
+Ember Energy Data API:
+https://ember-energy.org/data/api/
+
+Check the current API documentation, licensing and data coverage before integration.
+
+9. AI ENVIRONMENTAL CHATBOT
+
+Create a dedicated AI chatbot named:
+
+EcoAI – Environmental Intelligence Assistant
+
+The chatbot must be available after user login.
+
+Its purpose is to answer environmental questions and generate location-based reports using connected environmental data.
+
+Chatbot capabilities
+
+Users should be able to ask:
+
+What is the current environmental condition of Delhi?
+
+Generate an environmental report for Rewari.
+
+What is the latest available AQI in my selected location?
+
+Explain the water quality of this area.
+
+Calculate and explain the WQI.
+
+What is the current waste management performance?
+
+Calculate and explain the WMI.
+
+Compare Delhi and Mumbai.
+
+Compare environmental conditions between 2024 and 2025.
+
+Why has AQI increased this month?
+
+Is water quality deteriorating?
+
+What are the major environmental risks?
+
+Suggest actions to reduce water wastage.
+
+How can this area improve waste management?
+
+Predict possible environmental conditions for the next seven days, if sufficient data exists.
+
+Chatbot response structure
+
+For environmental questions, use this format:
+
+Selected Location.
+
+Reporting Period.
+
+Data Availability.
+
+Current Environmental Situation.
+
+Important Environmental Indicators.
+
+Detected Unusual Patterns.
+
+Potential Environmental Risks.
+
+Historical Comparison.
+
+Future Outlook, if reliable.
+
+Practical Recommendations.
+
+Data Sources and Last Updated Time.
+
+Chatbot rules
+
+Fetch the relevant environmental data before answering data-dependent questions.
+
+Use the selected location unless the user specifies another location.
+
+Use actual backend calculation results for AQI, WQI and WMI.
+
+Do not independently invent or modify calculated indices.
+
+Distinguish verified facts, estimates and predictions.
+
+State when data is unavailable.
+
+Mention uncertainty and data limitations.
+
+Explain technical terms in simple language.
+
+Give practical, specific and location-relevant recommendations.
+
+Do not claim that a pollutant caused an illness or that a particular source caused pollution without supporting evidence.
+
+Chatbot UI
+
+Include:
+
+Chat message area.
+
+User and AI message bubbles.
+
+Typing/loading indicator.
+
+Suggested questions.
+
+Location selector.
+
+Date-range selector.
+
+Clear chat option.
+
+Copy response option.
+
+Download report option.
+
+Links to supporting environmental data sources.
+
+10. CLIMATE AND ENVIRONMENTAL ALERT SYSTEM
+
+Create a dedicated alert and notification system.
+
+The application should continuously monitor available environmental data through scheduled background jobs.
+
+Alert categories
+
+Air pollution alert.
+
+Water-quality alert.
+
+Water-wastage alert.
+
+Waste-management alert.
+
+Energy-consumption alert.
+
+Climate and weather alert.
+
+Future environmental-risk alert.
+
+Alert examples
+
+AQI has entered a severe category.
+
+PM2.5 has increased significantly compared with its historical baseline.
+
+WQI indicates deteriorating water quality.
+
+A water-quality parameter has crossed its selected standard.
+
+Water consumption has increased unusually.
+
+Waste collection efficiency has decreased.
+
+Unmanaged waste has increased.
+
+Energy consumption is significantly above the normal baseline.
+
+A supported weather provider has issued a heatwave, heavy-rainfall or other relevant warning.
+
+Alert structure
+
+Each alert must contain:
+
+Alert title.
+
+Location.
+
+Environmental category.
+
+Severity.
+
+Actual measured value.
+
+Relevant threshold or baseline.
+
+Date and time.
+
+Data source.
+
+Explanation.
+
+Recommended action.
+
+Notification options
+
+Implement:
+
+In-app notifications.
+
+Notification badge in the navigation bar.
+
+Alert history.
+
+Mark as read.
+
+Filter by category and severity.
+
+User notification preferences.
+
+Prepare the architecture for email and browser push notifications, subject to the required service configuration and user permission.
+
+Climate data integration
+
+Use a suitable official weather and climate data provider.
+
+Possible providers include:
+
+Open-Meteo: https://open-meteo.com/
+
+Official national meteorological services.
+
+Other permitted weather-warning providers.
+
+Separate weather forecasts from long-term climate trends.
+
+Do not describe a short-term weather forecast as a climate prediction.
+
+Use official warnings where available. Show forecast issue time, valid period and provider.
+
+11. ANOMALY DETECTION AND ENVIRONMENTAL RISK ANALYSIS
+
+Create a backend analytics engine to identify unusual environmental patterns.
+
+Use a combination of:
+
+Statistical thresholds.
+
+Historical baseline comparisons.
+
+Percentage-change analysis.
+
+Rolling averages.
+
+Z-score.
+
+Isolation Forest where enough data is available.
+
+Time-series trend analysis.
+
+Examples
+
+Air:
+
+Sudden increase in PM2.5.
+
+AQI deterioration compared with the previous week.
+
+Repeated high-pollution periods.
+
+Water:
+
+pH outside the selected acceptable range.
+
+Sudden BOD or COD increase.
+
+DO falling below the applicable criterion.
+
+Microbial parameter exceeding its selected limit.
+
+Waste:
+
+Unusual waste generation increase.
+
+Reduced collection efficiency.
+
+Falling recycling rate.
+
+Increasing unmanaged waste.
+
+Energy:
+
+Unusual electricity consumption.
+
+Unexpected renewable-energy decline.
+
+Higher consumption compared with a comparable historical period.
+
+Risk classification
+
+Use:
+
+Low.
+
+Moderate.
+
+High.
+
+Critical.
+
+Define transparent, configurable thresholds for each indicator and jurisdiction.
+
+Do not use one universal threshold for all pollutants or all countries.
+
+Every anomaly must show:
+
+Observed value.
+
+Baseline value.
+
+Difference or percentage change.
+
+Detection method.
+
+Date and time.
+
+Confidence or data-quality status.
+
+Reason for the alert.
+
+Do not confuse a statistical anomaly with a confirmed environmental hazard.
+
+12. FUTURE ENVIRONMENTAL PREDICTION
+
+Create a forecasting module based on historical environmental datasets.
+
+Predict, where sufficient reliable historical data is available:
+
+AQI and pollutant trends.
+
+Water-quality trends.
+
+Waste generation.
+
+Waste-management performance.
+
+Energy consumption.
+
+Relevant short-term weather conditions through an appropriate weather provider.
+
+Forecasting approach
+
+Start with:
+
+Moving averages.
+
+Exponential smoothing.
+
+Linear trend models.
+
+Suitable time-series forecasting methods.
+
+Use more advanced models only when sufficient data and validation support them.
+
+Forecast periods
+
+Allow:
+
+Next 24 hours, where hourly data supports it.
+
+Next 7 days.
+
+Next 30 days.
+
+Next 3 months.
+
+Next 12 months, only when the historical dataset and model support that horizon.
+
+For each prediction, display:
+
+Predicted value.
+
+Forecast period.
+
+Confidence interval where available.
+
+Model used.
+
+Historical data period.
+
+Model accuracy or validation metrics.
+
+Important limitations.
+
+Label predictions clearly as Forecast / Predicted, never as current measured readings.
+
+Do not make a forecast when data is insufficient. Explain what additional data is needed.
+
+13. HISTORICAL COMPARISON AND ANALYTICAL REPORTS
+
+Create a separate Reports and Comparison module.
+
+Users must be able to compare environmental conditions using:
+
+Hourly data, where available.
+
+Day-wise comparisons.
+
+Date-wise comparisons.
+
+Weekly comparisons.
+
+Monthly comparisons.
+
+Quarterly comparisons.
+
+Yearly comparisons.
+
+Custom date ranges.
+
+Comparison options
+
+Allow users to:
+
+Compare two or more locations.
+
+Compare two different years.
+
+Compare different months.
+
+Compare selected dates.
+
+Compare the same month across different years.
+
+Compare different environmental categories.
+
+Compare AQI, WQI, WMI and energy consumption separately.
+
+Charts
+
+Use:
+
+Line charts for trends.
+
+Bar charts for location comparisons.
+
+Area charts for time-series data.
+
+Pie or doughnut charts for waste composition where appropriate.
+
+Heatmaps for pollution intensity where supported.
+
+Geographic maps for location comparisons.
+
+Tables for exact values.
+
+Always display:
+
+Units.
+
+Date range.
+
+Location.
+
+Data source.
+
+Missing-data periods.
+
+Comparison methodology.
+
+Do not compare incompatible measurements or different AQI/WQI methodologies without clearly explaining the limitation.
+
+Reports
+
+Generate downloadable reports in PDF and CSV formats.
+
+Each environmental report should include:
+
+Report title.
+
+Location.
+
+Reporting period.
+
+Data sources.
+
+Data availability.
+
+Current environmental status.
+
+AQI, WQI, WMI and energy findings where available.
+
+Charts and visual insights.
+
+Unusual patterns.
+
+Potential environmental risks.
+
+Historical comparisons.
+
+Future outlook where supported.
+
+AI-generated recommendations.
+
+Methodology and limitations.
+
+Report generation date.
+
+Allow the user to select which environmental categories to include.
+
+14. ADMINISTRATOR INTERFACE
+
+Create a separate, secure administrator portal.
+
+The administrator must not use the ordinary user registration process.
+
+Admin login
+
+Include:
+
+Admin email.
+
+Password.
+
+Multifactor authentication.
+
+Secure session handling.
+
+Login attempt limits.
+
+Session expiration.
+
+Logout.
+
+Password reset through a secure administrative procedure.
+
+Require a verified second factor for administrator access using a Firebase-supported MFA method.
+
+Do not rely on a frontend-only password or hidden admin URL.
+
+Admin Dashboard
+
+Show:
+
+Total registered users.
+
+Active users.
+
+Total monitored locations.
+
+Connected data providers.
+
+API connection status.
+
+Latest data ingestion time.
+
+Environmental alerts.
+
+Reports generated.
+
+Data-processing errors.
+
+Background job status.
+
+System health.
+
+Admin Navigation
+
+Admin Overview.
+
+User Management.
+
+Location Management.
+
+API Management.
+
+Dataset Management.
+
+WQI Standards Management.
+
+WMI Configuration.
+
+AI Model Management.
+
+Anomaly Threshold Management.
+
+Alerts Management.
+
+Reports Management.
+
+System Monitoring.
+
+Audit Logs.
+
+Security Settings.
+
+User Management
+
+Admin can:
+
+View registered users.
+
+Search users.
+
+View account status.
+
+Suspend or reactivate accounts.
+
+Assign approved roles.
+
+Review account activity.
+
+Do not allow admins to view users' plain-text passwords.
+
+API Management
+
+Create a page where administrators can:
+
+Add an API provider.
+
+Select its environmental category.
+
+Enter API endpoint.
+
+Configure authentication method.
+
+Store API keys securely in server-side secrets.
+
+Configure refresh frequency.
+
+Test API connection.
+
+View connection status.
+
+View last successful synchronization.
+
+View error logs.
+
+Enable or disable a provider.
+
+Support multiple providers for the same environmental category.
+
+Use a provider-adapter architecture so new APIs can be added without rewriting the entire application.
+
+Never expose API keys to normal users.
+
+Dataset Management
+
+Allow admins to:
+
+Upload CSV and Excel datasets.
+
+Select environmental category.
+
+Map dataset columns.
+
+Validate units and timestamps.
+
+Check missing values.
+
+Detect duplicate records.
+
+Preview imported data.
+
+Confirm import.
+
+Review import history.
+
+Correct or reject invalid records.
+
+WQI and WMI Management
+
+Allow authorized admins to:
+
+Review WQI methodologies and applicable standards.
+
+Configure water-use categories.
+
+Configure WMI weights.
+
+Review calculation history.
+
+Review data-quality warnings.
+
+Track methodology versions.
+
+Do not allow an admin to change a standard or weight silently. Record who changed it, when it changed and why.
+
+AI and Anomaly Configuration
+
+Allow authorized administrators to:
+
+Review active models.
+
+View model versions.
+
+Set supported alert thresholds.
+
+Review prediction performance.
+
+Enable or disable forecasting.
+
+View AI request and error logs.
+
+Security
+
+Use role-based access control.
+
+Create at least these roles:
+
+USER.
+
+ADMIN.
+
+SUPER_ADMIN.
+
+Use Firebase Authentication and server-side authorization.
+
+Use custom claims or a trusted server-side role store.
+
+The frontend must never be the only place where admin permissions are checked.
+
+Enable:
+
+Secure Firestore Security Rules.
+
+Input validation.
+
+Rate limiting.
+
+Server-side authorization.
+
+Audit logging.
+
+Secure secrets management.
+
+Protection against unauthorized data access.
+
+Users must only access their own private profile, reports, saved locations and personal settings unless a resource is intentionally public.
+
+15. DATABASE DESIGN
+
+Create a structured and scalable Firestore database.
+
+Suggested collections:
+
+users
+
+adminUsers
+
+locations
+
+monitoringStations
+
+environmentalReadings
+
+airQualityReadings
+
+waterQualityReadings
+
+waterUsageReadings
+
+wasteManagementReadings
+
+energyReadings
+
+weatherReadings
+
+wqiResults
+
+wmiResults
+
+anomalyRecords
+
+environmentalRisks
+
+forecasts
+
+notifications
+
+reports
+
+apiProviders
+
+apiSyncLogs
+
+uploadedDatasets
+
+modelConfigurations
+
+methodologyVersions
+
+auditLogs
+
+systemSettings
+
+Every environmental reading should store, where available:
+
+Location ID.
+
+Station ID.
+
+Environmental category.
+
+Parameter name.
+
+Measured value.
+
+Unit.
+
+Observation timestamp.
+
+Ingestion timestamp.
+
+Provider/source.
+
+Data quality status.
+
+Whether the record is measured, historical, uploaded or estimated.
+
+Avoid duplicate records using provider, station, parameter and observation timestamp as appropriate.
+
+Design database indexes for location, category, reporting period and timestamp queries.
+
+16. AUTOMATIC DATA COLLECTION AND PROCESSING
+
+Create a scheduled data-ingestion system.
+
+Workflow:
+
+Scheduled job starts.
+
+Identify enabled API providers.
+
+Request environmental data from each provider.
+
+Validate API response.
+
+Normalize parameter names and units.
+
+Validate timestamps and location.
+
+Detect missing or invalid values.
+
+Remove duplicate records.
+
+Save valid readings.
+
+Run AQI/WQI/WMI calculations where inputs are sufficient.
+
+Run anomaly detection.
+
+Generate risk records.
+
+Update dashboards.
+
+Generate notifications when alert conditions are met.
+
+Record synchronization logs.
+
+Make data-refresh frequency configurable by provider.
+
+Use retries and exponential backoff for temporary API failures.
+
+Respect provider rate limits, terms of use and access permissions.
+
+Do not repeatedly call APIs unnecessarily.
+
+If a provider is unavailable, retain the last successfully retrieved record with its original timestamp and clearly indicate that it is not a new live reading.
+
+17. UI/UX DESIGN – SIMPLE FOR EVERY USER
+
+The interface must be attractive, professional, clean and easy to understand for non-technical users.
+
+The application may be used by:
+
+Students.
+
+Citizens.
+
+Environmental researchers.
+
+Businesses.
+
+Government officials.
+
+Environmental organizations.
+
+Design direction
+
+Use a modern environmental dashboard design.
+
+Colour palette:
+
+Primary: Forest Green.
+
+Secondary: Teal.
+
+Background: Very Light Grey or Off-white.
+
+Text: Dark Navy or Charcoal.
+
+Warning: Yellow and Orange.
+
+Critical: Red.
+
+Use:
+
+Clear typography.
+
+Simple icons.
+
+Well-spaced cards.
+
+Easy-to-read charts.
+
+Short explanations.
+
+Clear status labels.
+
+Consistent navigation.
+
+Tooltips for technical terms.
+
+Avoid:
+
+Overcrowded dashboards.
+
+Too many colours.
+
+Complicated technical language.
+
+Unnecessary animations.
+
+Tiny text.
+
+Excessive tables on mobile screens.
+
+Accessibility
+
+Follow WCAG 2.2 AA principles where practical.
+
+Include:
+
+Keyboard navigation.
+
+Visible focus indicators.
+
+Accessible form labels.
+
+Good colour contrast.
+
+Screen-reader-friendly elements.
+
+Responsive text.
+
+Meaningful chart descriptions.
+
+Status labels that do not depend on colour alone.
+
+Responsive design
+
+The application must work properly on:
+
+Mobile
+
+Collapsible navigation.
+
+Single-column dashboard cards.
+
+Readable charts.
+
+Touch-friendly controls.
+
+Mobile-friendly chatbot.
+
+Tablet
+
+Two-column dashboard where appropriate.
+
+Adaptive chart layouts.
+
+Responsive navigation.
+
+Laptop/Desktop
+
+Full sidebar.
+
+Multi-column dashboard.
+
+Larger charts and comparison tables.
+
+Separate admin workspace.
+
+Test common screen widths and ensure there is no horizontal overflow.
+
+18. DATA TRANSPARENCY AND ENVIRONMENTAL ACCURACY
+
+These rules are mandatory.
+
+Never generate fake live environmental data.
+
+Never show sample data as actual measured data.
+
+Clearly label demo/sample data.
+
+Never replace missing readings with zero.
+
+Display data source and last-updated time.
+
+Display monitoring station where available.
+
+Display units consistently.
+
+Store original readings and normalized readings where appropriate.
+
+Keep WQI and WMI calculation details transparent.
+
+Use the correct jurisdiction-specific environmental standards.
+
+Clearly distinguish measured values, estimates and forecasts.
+
+Flag incomplete datasets.
+
+Do not create unsupported claims about pollution causes.
+
+Do not create false emergency alerts.
+
+Do not make predictions without sufficient historical data.
+
+Keep a record of calculation methodology and versions.
+
+If a real API cannot be connected because access or credentials are unavailable, show:
+
+"Provider not configured" or "Connection unavailable".
+
+Provide an admin configuration option rather than pretending the integration works.
+
+19. REQUIRED API AND INTEGRATION LAYER
+
+Create a centralized environmental data integration architecture.
+
+Each integration must have:
+
+Provider name.
+
+Environmental category.
+
+API endpoint.
+
+Authentication method.
+
+Request handler.
+
+Response parser.
+
+Data validator.
+
+Unit normalizer.
+
+Error handler.
+
+Last successful synchronization.
+
+Connection status.
+
+Create separate provider adapters for:
+
+Air quality.
+
+Water quality.
+
+Waste management.
+
+Energy.
+
+Weather and climate.
+
+Prioritize official government sources and documented open-data APIs.
+
+Support manual CSV and Excel import as a fallback.
+
+Do not assume that every source provides a public API. Check documentation, access rules, licensing and coverage.
+
+Do not scrape restricted portals or bypass authentication.
+
+20. TESTING AND QUALITY ASSURANCE
+
+Before considering the application complete, test the following:
+
+Authentication
+
+User registration.
+
+User login.
+
+Wrong password.
+
+Password reset.
+
+Admin login.
+
+Admin multifactor authentication.
+
+Unauthorized admin access.
+
+Environmental Data
+
+Successful API request.
+
+API failure.
+
+Missing values.
+
+Invalid units.
+
+Duplicate readings.
+
+Old/stale readings.
+
+Unsupported location.
+
+Calculations
+
+AQI calculation against the selected official framework.
+
+WQI calculation using a known test dataset.
+
+WQI handling of two-sided and higher-is-better parameters.
+
+WQI incomplete-data handling.
+
+WMI calculation using a known test dataset.
+
+WMI mass-balance validation.
+
+WMI missing-data handling.
+
+AI
+
+Chatbot retrieves the correct location's data.
+
+Chatbot does not invent unavailable readings.
+
+AI report matches backend calculations.
+
+Recommendations are linked to actual indicators.
+
+Forecasts are clearly labelled and validated.
+
+UI
+
+Mobile responsiveness.
+
+Tablet responsiveness.
+
+Desktop responsiveness.
+
+Accessible forms.
+
+Chart readability.
+
+Error and loading states.
+
+Security
+
+Users cannot access another user's private data.
+
+Users cannot access admin pages.
+
+API secrets are not exposed.
+
+Backend checks all protected operations.
+
+Firestore security rules prevent unauthorized reads and writes.
+
+21. DEVELOPMENT APPROACH – BUILD IN PHASES
+
+Do not attempt to generate the entire application as one incomplete code dump.
+
+Build the project in the following stages while maintaining one consistent architecture.
+
+Phase 1 – Application Foundation
+
+Project structure.
+
+Landing page.
+
+Responsive design system.
+
+User registration and login.
+
+Forgot password.
+
+Firebase setup.
+
+User dashboard.
+
+Secure admin login and role structure.
+
+Phase 2 – Location and Database
+
+Location search.
+
+Current-location permission.
+
+Location switching.
+
+Firestore collections.
+
+User profile.
+
+Environmental data schema.
+
+Phase 3 – Environmental API Integrations
+
+Air quality provider adapters.
+
+Water quality provider adapters.
+
+Waste datasets.
+
+Energy datasets.
+
+Weather integration.
+
+API status dashboard.
+
+CSV/Excel upload.
+
+Phase 4 – Environmental Index Engine
+
+AQI calculations using applicable official frameworks.
+
+WAWQI calculation.
+
+Proposed EcoIntelligence WMI calculation.
+
+Standards and weight configuration.
+
+Data validation.
+
+Calculation history.
+
+Phase 5 – AI and Analytics
+
+Anomaly detection.
+
+Risk identification.
+
+Historical trend analysis.
+
+Environmental chatbot.
+
+AI-generated reports.
+
+Practical recommendations.
+
+Phase 6 – Forecasting and Alerts
+
+Historical time-series analysis.
+
+Forecasting.
+
+Risk alerts.
+
+Scheduled jobs.
+
+In-app notifications.
+
+Email and push notification integration where configured.
+
+Phase 7 – Reports and Comparisons
+
+Day-wise comparisons.
+
+Date-wise comparisons.
+
+Monthly comparisons.
+
+Yearly comparisons.
+
+Location comparisons.
+
+PDF and CSV downloads.
+
+Phase 8 – Admin and Security
+
+User management.
+
+API management.
+
+Dataset management.
+
+Model management.
+
+Audit logs.
+
+Security testing.
+
+Phase 9 – Final Testing and Deployment
+
+Functional testing.
+
+Responsive testing.
+
+API testing.
+
+Database security testing.
+
+Error handling.
+
+Performance optimization.
+
+Cloud Run deployment preparation.
+
+22. IMPORTANT INSTRUCTIONS TO THE AI DEVELOPMENT AGENT
+
+Follow these instructions throughout development:
+
+Build a real full-stack application, not just a visual prototype.
+
+Use a professional, easy-to-understand interface.
+
+Keep user and administrator interfaces separate.
+
+Use Firebase Authentication and Firestore when the integration is available.
+
+Use secure server-side API calls.
+
+Integrate Gemini through the server-side runtime.
+
+Create reusable components.
+
+Use actual environmental data whenever a provider is configured.
+
+Do not invent API endpoints or successful connections.
+
+Do not invent environmental readings.
+
+Keep WQI and WMI calculation logic separate and transparent.
+
+Preserve all existing working features when adding new ones.
+
+Do not replace working backend functionality with static sample data.
+
+Add clear loading, empty, success and error states.
+
+Explain any external configuration required.
+
+Write readable code with meaningful file names.
+
+Test each module before moving to the next phase.
+
+Keep the application usable on mobile, tablet and laptop.
+
+Maintain a clear separation between measured data, historical data and predictions.
+
+If a requested feature cannot be implemented with the available service, explain the limitation and provide a practical alternative.
+
+23. FIRST ACTION
+
+Start by creating the complete application foundation.
+
+First generate:
+
+Project structure.
+
+Landing page.
+
+Responsive design system.
+
+User registration and login.
+
+Forgot password.
+
+Secure user dashboard layout.
+
+Separate administrator login.
+
+Role-based authorization structure.
+
+Firebase integration.
+
+Firestore database structure.
+
+Then show the working preview.
+
+After the foundation is implemented, continue through the development phases in order.
+
+Do not stop at a design mockup. Implement working functionality, test it, and clearly report which integrations are active, which are awaiting credentials and which are still pending.
+
+The final result must be a professional, secure, intelligent and user-friendly global environmental monitoring platform named EcoIntelligence.
